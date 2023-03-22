@@ -1,0 +1,29 @@
+version: "3.5"
+services:
+  orca-mongo:
+    container_name: orca-mongo
+    image: mongo
+    restart: always
+    volumes:
+      - ../dbdata:/data/db
+      - ./dbInit:/docker-entrypoint-initdb.d
+    networks:
+      - api-net-db
+    env_file: docker-compose.env
+  orca-api:
+    container_name: orca-api
+    restart: always
+    build: .
+    depends_on:
+      - orca-mongo
+    links:
+      - orca-mongo
+    networks:
+      - api-net-db
+      - orca-api-net
+    env_file: docker-compose.env
+networks:
+  orca-api-net:
+    name: orca-api-net
+    driver: bridge
+  api-net-db:

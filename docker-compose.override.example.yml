@@ -1,0 +1,12 @@
+version: "3.5"
+services:
+  orca-mongo:
+    ports:
+      - "27017:27017"
+  orca-api:
+    command: ["npm run start:dev"]
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/usr/share/app
+      - ./node_modules:/usr/share/app/node_modules
